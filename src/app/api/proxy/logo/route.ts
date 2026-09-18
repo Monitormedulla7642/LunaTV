@@ -10,7 +10,9 @@ export const runtime = 'nodejs';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const imageUrl = searchParams.get('url');
-  const source = searchParams.get('moontv-source');
+  // 客户端传的是 source，其他代理接口用的是 moontv-source，这里两者都接受
+  const source =
+    searchParams.get('moontv-source') || searchParams.get('source');
 
   if (!imageUrl) {
     return NextResponse.json({ error: 'Missing image URL' }, { status: 400 });
